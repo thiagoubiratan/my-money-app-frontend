@@ -1,15 +1,18 @@
-const webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     entry: './src/index.jsx',
     output: {
         path: __dirname + '/public',
-        filename: './app.js'
+        filename: './app.js',
+        publicPath: '/'
     },
     devServer: {
-        port: 8080,
+        host: '0.0.0.0',
+        port: 8888,
         contentBase: './public',
+        historyApiFallback: true  // Adiciona isso para suporte a SPA (Single Page Application)
     },
     resolve: {
         extensions: ['', '.js', '.jsx'],
@@ -44,4 +47,4 @@ module.exports = {
             loader: 'file'
         }]
     }
-}
+};
