@@ -34,9 +34,9 @@ class BillingCycleFrom extends Component {
 
                     <Summary credit={sumOfCredits} debt={sumOfDebts}></Summary>
 
-                    <ItemList cols='12 6' list={credits} readOnly={readOnly}
+                    <ItemList cols='12 12' list={credits} readOnly={readOnly}
                         field='credits' legend='Créditos' />
-                    <ItemList cols='12 6' list={debts} readOnly={readOnly}
+                    <ItemList cols='12 12' list={debts} readOnly={readOnly}
                         field='debts' legend='Débitos' showStatus={true} />
                 </div>
                 <div className='box-footer'>
