@@ -12,15 +12,28 @@ class BillingCycleFrom extends Component {
 
     calculateSumary() {
         const sum = (t, v) => t + v
+        const pendingDebts = this.props.debts.filter(debt => debt.status === 'PENDENTE');
+        
+        let sumCredits = this.props.credits.map(c => +c.value || 0).reduce(sum);
+        let sumDebts = this.props.debts.map(c => +c.value || 0).reduce(sum);
+        let pendingDebtsSum = 0;
+        let consolidatedValue = sumCredits - sumDebts
+
+        if (pendingDebts.length > 0) {
+            pendingDebtsSum = pendingDebts.map(debt => +debt.value || 0).reduce(sum);
+        }
+
         return {
-            sumOfCredits: this.props.credits.map(c => +c.value || 0).reduce(sum),
-            sumOfDebts: this.props.debts.map(c => +c.value || 0).reduce(sum)
+            sumOfCredits: sumCredits.toLocaleString('pt-BR', { minimumFractionDigits: 2 }),
+            sumOfDebts: sumDebts.toLocaleString('pt-BR', { minimumFractionDigits: 2 }),
+            sumOfPendingDebts: pendingDebtsSum.toLocaleString('pt-BR', { minimumFractionDigits: 2 }),
+            sumOfConsolidatedValue: consolidatedValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })
         }
     }
 
     render() {
         const { handleSubmit, readOnly, credits, debts } = this.props;
-        const { sumOfCredits, sumOfDebts } = this.calculateSumary();
+        const { sumOfCredits, sumOfDebts, sumOfPendingDebts, sumOfConsolidatedValue } = this.calculateSumary();
 
         return (
             <form role='from' onSubmit={handleSubmit}>
@@ -32,7 +45,7 @@ class BillingCycleFrom extends Component {
                     <Field name='year' component={labelAndInput} readOnly={readOnly}
                         label='Ano' cols='12 4' placeholder='Informe o ano'></Field>
 
-                    <Summary credit={sumOfCredits} debt={sumOfDebts}></Summary>
+                    <Summary credit={sumOfCredits} debt={sumOfDebts} pending={sumOfPendingDebts} consolidateValue={sumOfConsolidatedValue}></Summary>
 
                     <ItemList cols='12 12' list={credits} readOnly={readOnly}
                         field='credits' legend='Créditos' />
