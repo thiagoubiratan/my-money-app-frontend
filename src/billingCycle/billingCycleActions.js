@@ -2,14 +2,12 @@ import axios from 'axios';
 import { toastr } from 'react-redux-toastr';
 import { reset as resetForm, initialize } from 'redux-form';
 import { showTabs, selectTab } from '../common/tab/tabActions';
-import config from '../config/config';  // Importando o arquivo de configuração
-
-const BASE_URL = config.BASE_URL;  // Usando a URL da configuração
+import consts from '../consts'
 
 const INITAL_VALUES = { credits: [{}], debts: [{}] };
 
 export function getList() {
-    const request = axios.get(`${BASE_URL}/billingCycles`);
+    const request = axios.get(`${consts.API_URL}/billingCycles`);
 
     return {
         type: 'BILLING_CYCLES_FETCHED',
