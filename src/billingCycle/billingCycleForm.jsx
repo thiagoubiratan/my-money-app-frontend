@@ -11,13 +11,7 @@ import Summary from './summary';
 class BillingCycleForm extends Component {
     
     render() {
-        const { handleSubmit, readOnly, credits, debts, billingCycle } = this.props;
-
-        // Pegando os valores diretamente do ciclo de pagamento retornado pela API
-        const sumOfCredits = billingCycle.totalCredits || '0,00';
-        const sumOfDebts = billingCycle.totalDebits || '0,00';
-        const sumOfPendingDebts = billingCycle.pending || '0,00';
-        const sumOfConsolidatedValue = billingCycle.consol || '0,00';
+        const { handleSubmit, readOnly, credits, debts, summaryCredits, summaryDebts, summaryPending, summaryConsol } = this.props;
 
         return (
             <form role='form' onSubmit={handleSubmit}>
@@ -29,12 +23,11 @@ class BillingCycleForm extends Component {
                     <Field name='year' component={labelAndInput} readOnly={readOnly}
                         label='Ano' cols='12 4' placeholder='Informe o ano'></Field>
 
-                    {/* Passando os valores diretamente para o componente Summary */}
                     <Summary 
-                        credit={sumOfCredits} 
-                        debt={sumOfDebts} 
-                        pending={sumOfPendingDebts} 
-                        consolidateValue={sumOfConsolidatedValue}
+                        credit={summaryCredits} 
+                        debt={summaryDebts} 
+                        pending={summaryPending} 
+                        consolidateValue={summaryConsol}
                     ></Summary>
 
                     <ItemList cols='12 12' list={credits} readOnly={readOnly}
@@ -55,12 +48,14 @@ class BillingCycleForm extends Component {
 
 BillingCycleForm = reduxForm({ form: 'billingCycleFrom', destroyOnUnmount: false })(BillingCycleForm);
 
-// Supondo que o ciclo de pagamento é retornado nas props como billingCycle
 const selector = formValueSelector('billingCycleFrom');
 const mapStateToProps = state => ({
     credits: selector(state, 'credits'),
     debts: selector(state, 'debts'),
-    billingCycle: state.billingCycle.list[0] || {} // Pegando o primeiro ciclo retornado
+    summaryCredits: selector(state, 'totalCredits'),
+    summaryDebts: selector(state, 'totalDebits'),
+    summaryPending: selector(state, 'pending'),
+    summaryConsol: selector(state, 'consol'),
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({ init }, dispatch);
