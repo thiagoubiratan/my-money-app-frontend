@@ -1,42 +1,26 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import { init } from './billingCycleActions'
+import { init } from './billingCycleActions';
 import { reduxForm, Field, formValueSelector } from 'redux-form';
 import labelAndInput from '../common/form/labelAndInput';
 import ItemList from './itemList';
 import Summary from './summary';
 
-class BillingCycleFrom extends Component {
-
-    calculateSumary() {
-        const sum = (t, v) => t + v
-        const pendingDebts = this.props.debts.filter(debt => debt.status === 'PENDENTE');
-        
-        let sumCredits = this.props.credits.map(c => +c.value || 0).reduce(sum);
-        let sumDebts = this.props.debts.map(c => +c.value || 0).reduce(sum);
-        let pendingDebtsSum = 0;
-        let consolidatedValue = sumCredits - sumDebts
-
-        if (pendingDebts.length > 0) {
-            pendingDebtsSum = pendingDebts.map(debt => +debt.value || 0).reduce(sum);
-        }
-
-        return {
-            sumOfCredits: sumCredits.toLocaleString('pt-BR', { minimumFractionDigits: 2 }),
-            sumOfDebts: sumDebts.toLocaleString('pt-BR', { minimumFractionDigits: 2 }),
-            sumOfPendingDebts: pendingDebtsSum.toLocaleString('pt-BR', { minimumFractionDigits: 2 }),
-            sumOfConsolidatedValue: consolidatedValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })
-        }
-    }
-
+class BillingCycleForm extends Component {
+    
     render() {
-        const { handleSubmit, readOnly, credits, debts } = this.props;
-        const { sumOfCredits, sumOfDebts, sumOfPendingDebts, sumOfConsolidatedValue } = this.calculateSumary();
+        const { handleSubmit, readOnly, credits, debts, billingCycle } = this.props;
+
+        // Pegando os valores diretamente do ciclo de pagamento retornado pela API
+        const sumOfCredits = billingCycle.totalCredits || '0,00';
+        const sumOfDebts = billingCycle.totalDebits || '0,00';
+        const sumOfPendingDebts = billingCycle.pending || '0,00';
+        const sumOfConsolidatedValue = billingCycle.consol || '0,00';
 
         return (
-            <form role='from' onSubmit={handleSubmit}>
+            <form role='form' onSubmit={handleSubmit}>
                 <div className='box-body'>
                     <Field name='name' component={labelAndInput} readOnly={readOnly}
                         label='Nome' cols='12 4' placeholder='Informe o nome'></Field>
@@ -45,7 +29,13 @@ class BillingCycleFrom extends Component {
                     <Field name='year' component={labelAndInput} readOnly={readOnly}
                         label='Ano' cols='12 4' placeholder='Informe o ano'></Field>
 
-                    <Summary credit={sumOfCredits} debt={sumOfDebts} pending={sumOfPendingDebts} consolidateValue={sumOfConsolidatedValue}></Summary>
+                    {/* Passando os valores diretamente para o componente Summary */}
+                    <Summary 
+                        credit={sumOfCredits} 
+                        debt={sumOfDebts} 
+                        pending={sumOfPendingDebts} 
+                        consolidateValue={sumOfConsolidatedValue}
+                    ></Summary>
 
                     <ItemList cols='12 12' list={credits} readOnly={readOnly}
                         field='credits' legend='Créditos' />
@@ -58,16 +48,20 @@ class BillingCycleFrom extends Component {
                     </button>
                     <button type='button' className='btn btn-default' onClick={this.props.init}>Cancelar</button>
                 </div>
-            </form >
-        )
+            </form>
+        );
     }
 }
 
-BillingCycleFrom = reduxForm({ form: 'billingCycleFrom', destroyOnUnmount: false })(BillingCycleFrom)
-const selector = formValueSelector('billingCycleFrom')
+BillingCycleForm = reduxForm({ form: 'billingCycleFrom', destroyOnUnmount: false })(BillingCycleForm);
+
+// Supondo que o ciclo de pagamento é retornado nas props como billingCycle
+const selector = formValueSelector('billingCycleFrom');
 const mapStateToProps = state => ({
     credits: selector(state, 'credits'),
-    debts: selector(state, 'debts')
-})
-const mapDispatchToProps = dispatch => bindActionCreators({ init }, dispatch)
-export default connect(mapStateToProps, mapDispatchToProps)(BillingCycleFrom)
+    debts: selector(state, 'debts'),
+    billingCycle: state.billingCycle.list[0] || {} // Pegando o primeiro ciclo retornado
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({ init }, dispatch);
+export default connect(mapStateToProps, mapDispatchToProps)(BillingCycleForm);
