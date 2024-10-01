@@ -46,23 +46,43 @@ class BillingCycleList extends Component {
         const totalPages = Math.ceil(list.length / perPage);
         const pages = Array.from(Array(totalPages).keys()).map(page => (
             <li key={page + 1} className={`page-item ${currentPage === page + 1 ? 'active' : ''}`}>
-                <a className="page-link" onClick={() => this.setState({ currentPage: page + 1 })}>{page + 1}</a>
+                <a 
+                  className="page-link" 
+                  style={{ cursor: 'pointer' }}  // Estilo inline aqui
+                  onClick={() => this.setState({ currentPage: page + 1 })}
+                >
+                  {page + 1}
+                </a>
             </li>
         ));
+        
         return (
             <div className="card-footer clearfix">
                 <ul className="pagination pagination-sm m-0 float-right">
                     <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                        <a className="page-link" onClick={() => this.setState({ currentPage: currentPage - 1 })}>«</a>
+                        <a 
+                          className="page-link" 
+                          style={{ cursor: 'pointer' }}  // Estilo inline aqui
+                          onClick={() => this.setState({ currentPage: currentPage - 1 })}
+                        >
+                          «
+                        </a>
                     </li>
                     {pages}
                     <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                        <a className="page-link" onClick={() => this.setState({ currentPage: currentPage + 1 })}>»</a>
+                        <a 
+                          className="page-link" 
+                          style={{ cursor: 'pointer' }}  // Estilo inline aqui
+                          onClick={() => this.setState({ currentPage: currentPage + 1 })}
+                        >
+                          »
+                        </a>
                     </li>
                 </ul>
             </div>
         );
     }
+    
 
     render() {
         return (
