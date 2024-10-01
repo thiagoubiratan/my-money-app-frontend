@@ -6,8 +6,8 @@ export default props => {
     return (
         <footer className='main-footer'>
             <strong>
-                Copyright &copy; {anoAtual}
-                <a href='#' target='_blank'> My Money APP</a>.
+                &copy; {anoAtual}
+                <a href='#' target='_blank'> Meu Dinheiro</a>.
             </strong>
         </footer>
     );
