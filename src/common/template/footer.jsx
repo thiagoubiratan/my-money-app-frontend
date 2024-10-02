@@ -7,7 +7,7 @@ export default props => {
         <footer className='main-footer'>
             <strong>
                 &copy; {anoAtual}
-                <a href='#' target='_blank'> Meu Dinheiro</a>.
+                <a href='#' target='_blank'> Gestão 360</a>.
             </strong>
         </footer>
     );
