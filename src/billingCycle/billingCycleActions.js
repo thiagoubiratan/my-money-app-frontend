@@ -31,7 +31,7 @@ export function showUpdate(billingCycle) {
     return [
         showTabs('tabUpdate'),
         selectTab('tabUpdate'),
-        initialize('billingCycleFrom', billingCycle)
+        initialize('billingCycleForm', billingCycle)
     ];
 }
 
@@ -39,7 +39,7 @@ export function showDelete(billingCycle) {
     return [
         showTabs('tabDelete'),
         selectTab('tabDelete'),
-        initialize('billingCycleFrom', billingCycle)
+        initialize('billingCycleForm', billingCycle)
     ];
 }
 
@@ -48,14 +48,26 @@ export function init() {
         showTabs('tabList', 'tabCreate'),
         selectTab('tabList'),
         getList(),
-        initialize('billingCycleFrom', INITAL_VALUES)
+        initialize('billingCycleForm', INITAL_VALUES)
     ];
 }
 
 function submit(values, method) {
+    // Transformar valores antes de enviar à API
+    const transformedValues = {
+        ...values,
+        debts: values.debts.map(debt => ({
+            ...debt,
+            paymentday: debt.paymentday ? parseInt(debt.paymentday, 10) : undefined, // Converte para número
+            paymentDate: debt.paymentDate ? new Date(debt.paymentDate).toISOString() : undefined // Converte para data ISO
+        }))
+    };
+
+    console.log(transformedValues); // Verificar os valores transformados
+
     return dispatch => {
-        const id = values._id ? values._id : '';
-        axios[method](`${consts.API_URL}/billingCycles/${id}`, values)
+        const id = transformedValues._id ? transformedValues._id : '';
+        axios[method](`${consts.API_URL}/billingCycles/${id}`, transformedValues)
             .then(resp => {
                 toastr.success('Sucesso', 'Operação realizada com sucesso.');
                 dispatch(init());
@@ -65,3 +77,4 @@ function submit(values, method) {
             });
     };
 }
+

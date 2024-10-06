@@ -46,9 +46,9 @@ class BillingCycleForm extends Component {
     }
 }
 
-BillingCycleForm = reduxForm({ form: 'billingCycleFrom', destroyOnUnmount: false })(BillingCycleForm);
+BillingCycleForm = reduxForm({ form: 'billingCycleForm', destroyOnUnmount: false })(BillingCycleForm);
 
-const selector = formValueSelector('billingCycleFrom');
+const selector = formValueSelector('billingCycleForm');
 const mapStateToProps = state => ({
     credits: selector(state, 'credits'),
     debts: selector(state, 'debts'),

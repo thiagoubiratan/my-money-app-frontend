@@ -6,8 +6,8 @@ import Grid from '../common/layout/grid';
 import Input from '../common/form/input';
 import If from '../common/operador/if';
 
-// Crie um componente Select customizado
-const renderSelectField = ({ input, label, meta: { touched, error }, children, ...custom }) => (
+// Componente de Select customizado
+const renderSelectField = ({ input, meta: { touched, error }, children, ...custom }) => (
     <div>
         <select {...input} {...custom} className="form-control">
             {children}
@@ -16,16 +16,30 @@ const renderSelectField = ({ input, label, meta: { touched, error }, children, .
     </div>
 );
 
+// Componente de Input para Datas
+const renderDateField = ({ input, meta: { touched, error }, ...custom }) => (
+    <div>
+        <input 
+            {...input}
+            type="date" 
+            className="form-control"
+            {...custom}
+            value={input.value ? input.value.split('T')[0] : ''} // Formatar para YYYY-MM-DD
+        />
+        {touched && error && <span className="error">{error}</span>}
+    </div>
+);
+
 class ItemList extends Component {
     add(index, item = {}) {
         if (!this.props.readOnly) {
-            this.props.arrayInsert('billingCycleFrom', this.props.field, index, item)
+            this.props.arrayInsert('billingCycleForm', this.props.field, index, item)
         }
     }
 
     remove(index) {
         if (!this.props.readOnly && this.props.list.length > 1) {
-            this.props.arrayRemove('billingCycleFrom', this.props.field, index)
+            this.props.arrayRemove('billingCycleForm', this.props.field, index)
         }
     }
 
@@ -34,26 +48,46 @@ class ItemList extends Component {
         return list.map((item, index) => (
             <tr key={index}>
                 <td>
-                    <Field 
-                        name={`${this.props.field}[${index}].name`} 
-                        component={Input} 
-                        placeholder="Informe o nome" 
-                        readOnly={this.props.readOnly} 
+                    <Field
+                        name={`${this.props.field}[${index}].name`}
+                        component={Input}
+                        placeholder="Informe o nome"
+                        readOnly={this.props.readOnly}
                     />
                 </td>
                 <td>
-                    <Field 
-                        name={`${this.props.field}[${index}].value`} 
-                        component={Input} 
-                        placeholder="Informe o valor" 
-                        readOnly={this.props.readOnly} 
+                    <Field
+                        name={`${this.props.field}[${index}].value`}
+                        component={Input}
+                        placeholder="Informe o valor"
+                        readOnly={this.props.readOnly}
                     />
                 </td>
                 <If test={this.props.showStatus}>
                     <td>
-                        <Field 
-                            name={`${this.props.field}[${index}].status`} 
-                            component={renderSelectField} 
+                        <Field
+                            name={`${this.props.field}[${index}].paymentday`}
+                            component={Input}
+                            placeholder="Informe o valor"
+                            readOnly={this.props.readOnly}
+                        />
+                    </td>
+                </If>
+                <If test={this.props.showStatus}>
+                    <td>
+                        <Field
+                            name={`${this.props.field}[${index}].paymentDate`}
+                            component={renderDateField} // Usando o novo componente de data
+                            placeholder="Informe a data"
+                            readOnly={this.props.readOnly}
+                        />
+                    </td>
+                </If>
+                <If test={this.props.showStatus}>
+                    <td>
+                        <Field
+                            name={`${this.props.field}[${index}].status`}
+                            component={renderSelectField}
                             readOnly={this.props.readOnly}
                         >
                             <option value="">Selecione o status</option>
@@ -88,6 +122,12 @@ class ItemList extends Component {
                             <tr>
                                 <th>Nome</th>
                                 <th>Valor</th>
+                                <If test={this.props.showStatus}>
+                                    <th>Dia do vencimento</th>
+                                </If>
+                                <If test={this.props.showStatus}>
+                                    <th>Data do pagamento</th>
+                                </If>
                                 <If test={this.props.showStatus}>
                                     <th>Status</th>
                                 </If>
