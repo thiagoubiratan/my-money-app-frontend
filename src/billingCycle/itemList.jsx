@@ -6,6 +6,23 @@ import Grid from '../common/layout/grid';
 import Input from '../common/form/input';
 import If from '../common/operador/if';
 
+function formatCurrency(value) {
+    if (!value) return '';
+    
+    // Remove qualquer caractere que não seja número ou vírgula
+    let formattedValue = value.replace(/\D/g, '');
+    
+    // Converte o valor para um número float e divide por 100 para obter as duas casas decimais
+    const floatValue = parseFloat(formattedValue) / 100;
+
+    // Aplica a formatação para BRL sem o símbolo "R$"
+    return floatValue
+        .toFixed(2) // Define sempre duas casas decimais
+        .replace('.', ',') // Troca o ponto por vírgula
+        .replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Adiciona os pontos como separadores de milhar
+}
+
+
 // Componente de Select customizado
 const renderSelectField = ({ input, meta: { touched, error }, children, ...custom }) => (
     <div>
@@ -29,6 +46,38 @@ const renderDateField = ({ input, meta: { touched, error }, ...custom }) => (
         {touched && error && <span className="error">{error}</span>}
     </div>
 );
+
+// Componente de Input para Números
+const renderNumbeField = ({ input, meta: { touched, error }, ...custom }) => (
+    <div>
+        <input 
+            {...input}
+            type="number" 
+            className="form-control"
+            {...custom}
+            value={input.value}
+        />
+        {touched && error && <span className="error">{error}</span>}
+    </div>
+);
+
+const renderCurrencyField = ({ input, meta: { touched, error }, readOnly }) => (
+    <div>
+        <input
+            {...input}
+            className="form-control"
+            readOnly={readOnly}
+            value={formatCurrency(input.value)} // Formata o valor ao renderizar
+            onChange={(e) => {
+                const formattedValue = formatCurrency(e.target.value); // Aplica a máscara conforme o usuário digita
+                input.onChange(formattedValue.replace(/\./g, '').replace(',', '.')); // Remove os separadores para o valor real
+            }}
+            placeholder="Informe o valor"
+        />
+        {touched && error && <span className="error">{error}</span>}
+    </div>
+);
+
 
 class ItemList extends Component {
     add(index, item = {}) {
@@ -58,7 +107,7 @@ class ItemList extends Component {
                 <td>
                     <Field
                         name={`${this.props.field}[${index}].value`}
-                        component={Input}
+                        component={renderCurrencyField}
                         placeholder="Informe o valor"
                         readOnly={this.props.readOnly}
                     />
@@ -67,7 +116,7 @@ class ItemList extends Component {
                     <td>
                         <Field
                             name={`${this.props.field}[${index}].paymentday`}
-                            component={Input}
+                            component={renderNumbeField}
                             placeholder="Informe o valor"
                             readOnly={this.props.readOnly}
                         />
