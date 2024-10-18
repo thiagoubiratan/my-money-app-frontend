@@ -117,7 +117,7 @@ class ItemList extends Component {
                         <Field
                             name={`${this.props.field}[${index}].paymentday`}
                             component={renderNumbeField}
-                            placeholder="Informe o valor"
+                            placeholder="Informe dia do pagamento"
                             readOnly={this.props.readOnly}
                         />
                     </td>
