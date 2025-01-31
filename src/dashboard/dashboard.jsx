@@ -6,7 +6,7 @@ import ContentHeader from '../common/template/contentHeader';
 import Content from '../common/template/content';
 import ValueBox from '../common/widget/valueBox';
 import Row from '../common/layout/row';
-import { Bar } from 'react-chartjs-2';  // Importando o gráfico de barras
+import { Pie } from 'react-chartjs-2';  // Importando o gráfico de pizza
 
 class Dashboard extends Component {
 
@@ -40,34 +40,33 @@ class Dashboard extends Component {
 
         console.log("Valores de Dados:", { creditValue, debtValue, consolValue });
 
-        // Dados para o gráfico de barras
+        // Dados para o gráfico de pizza
         const chartData = {
-            labels: ['Créditos', 'Débitos', 'Consolidado'],  // Labels das barras
+            labels: ['Créditos', 'Débitos', 'Consolidado'], // Labels das fatias
             datasets: [{
-                label: 'Valores',
-                data: [creditValue, debtValue, consolValue],  // Dados das barras
-                backgroundColor: ['#00A65A', '#DD4B39', '#0073B7'],  // Cor das barras (verde alterado para #00A65A)
-                borderColor: ['darkgreen', 'darkred', 'darkblue'],  // Cor da borda das barras
-                borderWidth: 1,  // Largura da borda das barras
+                data: [creditValue, debtValue, consolValue], // Dados das fatias
+                backgroundColor: ['#00A65A', '#DD4B39', '#0073B7'], // Cores das fatias
+                borderColor: ['#FFFFFF', '#FFFFFF', '#FFFFFF'], // Bordas das fatias
+                borderWidth: 2,
             }]
         };
 
-        // Opções para o gráfico de barras
+        // Opções para o gráfico de pizza
         const chartOptions = {
             responsive: true,
             maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true, // Garantir que a escala Y comece do zero
-                },
-            },
+            plugins: {
+                legend: {
+                    position: 'bottom', // Posiciona a legenda abaixo do gráfico
+                }
+            }
         };
 
         console.log("Dados do gráfico:", chartData);
 
         return (
             <div>
-                <ContentHeader title="Dashboard" small="Versão 2024.09.30" />
+                <ContentHeader title="Dashboard" small="Versão 2025.01.31" />
                 <Content>
                     <Row>
                         <ValueBox
@@ -93,9 +92,9 @@ class Dashboard extends Component {
                         />
                     </Row>
                     <Row>
-                        {/* Gráfico de Barras */}
-                        <div style={{ height: 500, width: '100%', margin: '0 auto' }}>
-                            <Bar data={chartData} options={chartOptions} />
+                        {/* Gráfico de Pizza */}
+                        <div style={{ height: 300, width: '100%', margin: '10px auto 0' }}>
+                            <Pie data={chartData} options={chartOptions} />
                         </div>
                     </Row>
                 </Content>
