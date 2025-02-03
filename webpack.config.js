@@ -11,7 +11,7 @@ module.exports = {
     devServer: {
         host: '0.0.0.0',
         port: 8888,
-        contentBase: './public',
+        contentBase: './build',
         historyApiFallback: true  // Adiciona isso para suporte a SPA (Single Page Application)
     },
     resolve: {
