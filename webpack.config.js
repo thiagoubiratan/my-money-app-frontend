@@ -4,14 +4,14 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
     entry: './src/index.jsx',
     output: {
-        path: __dirname + '/build',
+        path: __dirname + '/public',
         filename: './app.js',
         publicPath: '/'
     },
     devServer: {
         host: '0.0.0.0',
         port: 8888,
-        contentBase: './build',
+        contentBase: './public',
         historyApiFallback: true  // Adiciona isso para suporte a SPA (Single Page Application)
     },
     resolve: {
