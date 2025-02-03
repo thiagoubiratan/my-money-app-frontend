@@ -7,7 +7,7 @@ export default props => (
             <span className='logo-mini'><b>G</b>360</span>
             <span className='logo-lg'>
                 <i className='fa fa-balance-scale'></i>
-                <b> Gestão</b> 360
+                <b> Meu Dinheiro</b> 360
             </span>
         </a>
         <nav className='navbar navbar-static-top'>
