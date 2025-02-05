@@ -4,7 +4,10 @@ import NavBar from './navBar';
 export default props => (
     <header className='main-header'>
         <a href='/#/' className='logo'>
-            <span className='logo-mini'><b>MD</b></span>
+            <span className='logo-mini'>
+                <i className='fa fa-money'></i>
+                <b></b>
+            </span>
             <span className='logo-lg'>
                 <i className='fa fa-money'></i>
                 <b> Meu Dinheiro</b> 360
