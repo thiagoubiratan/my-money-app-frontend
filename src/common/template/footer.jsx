@@ -1,14 +1,24 @@
-import React from 'react';
+import React from "react";
 
-export default props => {
-    const anoAtual = new Date().getFullYear();
+export default (props) => {
+  const anoAtual = new Date().getFullYear();
 
-    return (
-        <footer className='main-footer'>
-            <strong>
-                &copy; {anoAtual}
-                <a href='#' target='_blank'> Meu Dinheiro</a>.
-            </strong>
-        </footer>
-    );
-}
+  return (
+    // <footer className='main-footer'>
+    //     <strong>
+    //         &copy; {anoAtual}
+    //         <a href='#' target='_blank'> Meu Dinheiro</a>.
+    //     </strong>
+    // </footer>
+
+    <footer className="main-footer">
+      <div className="pull-right hidden-xs">
+        <b>Version</b> 1.1.001
+      </div>
+      <strong>
+        Copyright © 2020-{anoAtual} <a href="#">Meu Dinheiro APP</a>.
+      </strong>{" "}
+      Todos os direitos reservados.
+    </footer>
+  );
+};
