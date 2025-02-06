@@ -137,12 +137,12 @@ class Dashboard extends Component {
                 width: "100%",
               }}
             >
-              <div style={{ flex: "1", maxWidth: "48%", height: 300 }}>
+              <div style={{ flex: "1", maxWidth: "100%", height: 270 }}>
                 <h4 style={{ textAlign: "center" }}>Visão Geral</h4>
                 <Pie data={chartData} options={chartOptions} />
               </div>
 
-              <div style={{ flex: "1", maxWidth: "48%", height: 300 }}>
+              <div style={{ flex: "1", maxWidth: "100%", height: 270 }}>
                 <h4 style={{ textAlign: "center" }}>Gastos por Categoria</h4>
                 <Doughnut data={categoryChartData} options={chartOptions} />
               </div>
