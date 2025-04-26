@@ -6,6 +6,7 @@ import DashboardReducer from '../dashboard/dashboardReducer'
 import TabReducer from '../common/tab/tabReducer'
 import billingCycleReducer from '../billingCycle/billingCycleReducer'
 import authReducer from '../auth/authReducer'
+import categoryReducer from '../category/categoryReducer'
 
 const rootReducer = combineReducers({
     dashboard: DashboardReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     billingCycle: billingCycleReducer,
     form: formReducer,
     toastr: toastrReducer,
-    auth: authReducer
+    auth: authReducer,
+    categories: categoryReducer
 })
 
 export default rootReducer
