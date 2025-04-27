@@ -1,29 +1,19 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { getList } from "./categoryActions";
+import { getList, showUpdate, showDelete } from "./categoryActions"; // importa as novas actions
 
 class CategoryList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             currentPage: 1,
-            perPage: 10, // Defina o número de registros por página conforme necessário
+            perPage: 10,
         };
-        this.handleCopy = this.handleCopy.bind(this); // Bind manual para o método
     }
 
     componentDidMount() {
         this.props.getList();
-    }
-
-    handleCopy(billingCycleId) {
-        const { copyBillingCycle } = this.props;
-        if (billingCycleId) {
-            copyBillingCycle(billingCycleId); // Chama a ação para copiar o ciclo de pagamento
-        } else {
-            console.error("ID do ciclo de pagamento não encontrado.");
-        }
     }
 
     renderRows() {
@@ -33,19 +23,19 @@ class CategoryList extends Component {
         const endIndex = startIndex + perPage;
         const currentList = list.slice(startIndex, endIndex);
 
-        return currentList.map((x) => (
-            <tr key={x._id}>
-                <td>{x.description}</td>
+        return currentList.map((category) => (
+            <tr key={category._id}>
+                <td>{category.description}</td>
                 <td>
                     <button
                         className="btn btn-warning"
-                        onClick={() => this.props.showUpdate(x)}
+                        onClick={() => this.props.showUpdate(category)}
                     >
                         <i className="fa fa-pencil"></i>
                     </button>
                     <button
                         className="btn btn-danger"
-                        onClick={() => this.props.showDelete(x)}
+                        onClick={() => this.props.showDelete(category)}
                     >
                         <i className="fa fa-trash-o"></i>
                     </button>
@@ -65,7 +55,7 @@ class CategoryList extends Component {
             >
                 <a
                     className="page-link"
-                    style={{ cursor: "pointer" }} // Estilo inline aqui
+                    style={{ cursor: "pointer" }}
                     onClick={() => this.setState({ currentPage: page + 1 })}
                 >
                     {page + 1}
@@ -79,7 +69,7 @@ class CategoryList extends Component {
                     <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
                         <a
                             className="page-link"
-                            style={{ cursor: "pointer" }} // Estilo inline aqui
+                            style={{ cursor: "pointer" }}
                             onClick={() => this.setState({ currentPage: currentPage - 1 })}
                         >
                             «
@@ -87,12 +77,11 @@ class CategoryList extends Component {
                     </li>
                     {pages}
                     <li
-                        className={`page-item ${currentPage === totalPages ? "disabled" : ""
-                            }`}
+                        className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
                     >
                         <a
                             className="page-link"
-                            style={{ cursor: "pointer" }} // Estilo inline aqui
+                            style={{ cursor: "pointer" }}
                             onClick={() => this.setState({ currentPage: currentPage + 1 })}
                         >
                             »
@@ -121,9 +110,11 @@ class CategoryList extends Component {
     }
 }
 
+// Mapeamento Redux
 const mapStateToProps = (state) => ({
-    list: state.categories.list || [],
+    list: state.categories.list || []
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ getList }, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({ getList, showUpdate, showDelete }, dispatch);
+
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryList);

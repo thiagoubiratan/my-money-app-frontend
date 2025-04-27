@@ -5,6 +5,7 @@ import { Field, arrayInsert, arrayRemove } from "redux-form";
 import Grid from "../common/layout/grid";
 import Input from "../common/form/input";
 import If from "../common/operador/if";
+import { getList as getCategories } from '../category/categoryActions';
 
 function formatCurrency(value) {
   if (!value) return "";
@@ -83,6 +84,10 @@ const renderCurrencyField = ({ input, meta: { touched, error }, readOnly }) => (
 );
 
 class ItemList extends Component {
+  componentDidMount() {
+    this.props.getCategories(); // carrega as categorias da API
+  }
+
   add(index, item = {}) {
     if (!this.props.readOnly) {
       this.props.arrayInsert("billingCycleForm", this.props.field, index, item);
@@ -143,23 +148,13 @@ class ItemList extends Component {
               readOnly={this.props.readOnly}
             >
               <option value="">Selecione...</option>
-              <option value="ALIMENTAÇÃO">Alimentação</option>
-              <option value="CARTÃO DE CRÉDITO">Cartão de crédito</option>
-              <option value="CRÉDIARIO">Crédiario</option>
-              <option value="DOAÇÃO">Doação</option>
-              <option value="FINANCIAMENTO">Financiamento</option>
-              <option value="IMPOSTOS/TAXAS">Imposto/Taxa</option>
-              <option value="INVESTIMENTO">Investimento</option>
-              <option value="IMPREVISTOS">Imprevisto</option>
-              <option value="LAZER">Lazer</option>
-              <option value="MORADIA">Moradia</option>
-              <option value="PESSOAL">Pessoal</option>
-              <option value="SAÚDE">Saúde</option>
-              <option value="SEGURANÇA">Segurança</option>
-              <option value="TELEFONIA">Telefonia</option>
-              <option value="TRANSPORTE">Transporte</option>
-              
+              {this.props.categories.map(cat => (
+                <option key={cat._id} value={cat.description}>
+                  {cat.description}
+                </option>
+              ))}
             </Field>
+
           </td>
         </If>
         <If test={this.props.showStatus}>
@@ -236,6 +231,12 @@ class ItemList extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  categories: state.categories.list || [],
+});
+
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ arrayInsert, arrayRemove }, dispatch);
-export default connect(null, mapDispatchToProps)(ItemList);
+  bindActionCreators({ arrayInsert, arrayRemove, getCategories }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItemList);
+
