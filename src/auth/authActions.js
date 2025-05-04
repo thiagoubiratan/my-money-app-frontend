@@ -56,3 +56,17 @@ export function validateToken(token) {
     }
   }
 }
+
+export function updatePassword(values, onSuccess) {
+  return dispatch => {
+    axios.put(`${consts.OAPI_URL}/updateUser`, values)
+      .then(resp => {
+        toastr.success('Sucesso', 'Senha atualizada com sucesso!');
+        if (onSuccess) onSuccess(); // Ex: fechar o modal
+      })
+      .catch(e => {
+        const msg = 'Erro ao atualizar senha';
+        toastr.error('Erro', msg);
+      });
+  };
+}
