@@ -29,11 +29,13 @@ class Auth extends Component {
     render() {
         const { loginMode } = this.state
         const { handleSubmit } = this.props
+
         return (
             <div className="login-box">
                 <div className="login-logo">
                     <i className='fa fa-money'></i>
-                    <b> Meu Dinheiro</b> 360</div>
+                    <b> Meu Dinheiro</b> 360
+                </div>
                 <div className="login-box-body">
                     <p className="login-box-msg">Bem vindo!</p>
                     <form onSubmit={handleSubmit(v => this.onSubmit(v))}>
@@ -49,10 +51,21 @@ class Auth extends Component {
                             </Grid>
                         </Row>
                     </form>
+
                     <br />
-                    <a onClick={() => this.changeMode()}>{loginMode ? 'Novo usuário? Registrar aqui!' : 'Já é cadastrado? Entrar aqui!'}</a>
+
+                    <a onClick={() => this.changeMode()} style={{ cursor: 'pointer' }}>
+                        {loginMode ? 'Novo usuário? Registrar aqui!' : 'Já é cadastrado? Entrar aqui!'}
+                    </a>
+
+                    {loginMode && (
+                        <p style={{ marginTop: '10px' }}>
+                            <a href="#/forgot-password">Esqueceu sua senha?</a>
+                        </p>
+                    )}
+
+                    <Messages />
                 </div>
-                <Messages />
             </div>
         )
     }
