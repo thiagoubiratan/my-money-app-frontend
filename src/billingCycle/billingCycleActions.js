@@ -10,11 +10,14 @@ export const showLoading = () => ({ type: 'SHOW_LOADING' });
 export const hideLoading = () => ({ type: 'HIDE_LOADING' });
 
 export function getList() {
-    const request = axios.get(`${consts.API_URL}/billingCycles`);
-
-    return {
-        type: 'BILLING_CYCLES_FETCHED',
-        payload: request,
+    return (dispatch) => {
+        // Não precisa de showLoading() aqui, pois submit() ou init() já o fazem.
+        axios.get(`${consts.API_URL}/billingCycles`)
+            .then(resp => {
+                dispatch({ type: 'BILLING_CYCLES_FETCHED', payload: resp });
+                dispatch(hideLoading()); // Finaliza o loading aqui!
+            })
+            .catch(e => toastr.error('Erro', 'Não foi possível carregar a lista.'));
     };
 }
 
@@ -31,28 +34,37 @@ export function remove(values) {
 }
 
 export function showUpdate(billingCycle) {
-    return [
-        showTabs('tabUpdate'),
-        selectTab('tabUpdate'),
-        initialize('billingCycleForm', billingCycle),
-    ];
+    return (dispatch) => {
+        dispatch(showLoading());
+        setTimeout(() => {
+            dispatch(showTabs('tabUpdate'));
+            dispatch(selectTab('tabUpdate'));
+            dispatch(initialize('billingCycleForm', billingCycle));
+            dispatch(hideLoading());
+        }, 100); // Pequeno delay para garantir que o loading seja visível
+    };
 }
 
 export function showDelete(billingCycle) {
-    return [
-        showTabs('tabDelete'),
-        selectTab('tabDelete'),
-        initialize('billingCycleForm', billingCycle),
-    ];
+    return (dispatch) => {
+        dispatch(showLoading());
+        setTimeout(() => {
+            dispatch(showTabs('tabDelete'));
+            dispatch(selectTab('tabDelete'));
+            dispatch(initialize('billingCycleForm', billingCycle));
+            dispatch(hideLoading());
+        }, 100); // Pequeno delay para garantir que o loading seja visível
+    };
 }
 
 export function init() {
-    return [
-        showTabs('tabList', 'tabCreate'),
-        selectTab('tabList'),
-        getList(),
-        initialize('billingCycleForm', INITIAL_VALUES),
-    ];
+    return (dispatch) => {
+        dispatch(showLoading()); // Inicia o loading aqui!
+        dispatch(showTabs('tabList', 'tabCreate'));
+        dispatch(selectTab('tabList'));
+        dispatch(getList());
+        dispatch(initialize('billingCycleForm', INITIAL_VALUES));
+    };
 }
 
 export function copyBillingCycle(id) {
@@ -115,9 +127,6 @@ function submit(values, method) {
                 } else {
                     toastr.error('Erro', 'Ocorreu um erro inesperado.');
                 }
-            })
-            .finally(() => {
-                dispatch(hideLoading()); // Esconde o loading
             });
     };
 }
