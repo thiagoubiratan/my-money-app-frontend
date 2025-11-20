@@ -11,7 +11,8 @@ import TabHeader from '../common/tab/tabHeader'
 import TabContent from '../common/tab/tabContent'
 import List from './billingCycleList'
 import Form from './billingCycleForm'
-import { init, create, update, remove } from './billingCycleActions'
+import { init, create, update, remove, copyBillingCycle } from './billingCycleActions'
+import Loading from '../common/widget/Loading';
 
 class BillingCycle extends Component {
 
@@ -20,8 +21,10 @@ class BillingCycle extends Component {
     }
 
     render() {
+        const { loading } = this.props;
         return (
             <div>
+                {loading && <Loading />}
                 <ContentHeader title='Ciclos de Pagamentos' small='Cadastro' />
                 <Content>
                     <Tabs>
@@ -52,5 +55,9 @@ class BillingCycle extends Component {
     }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ init, create, update, remove }, dispatch);
-export default connect(null, mapDispatchToProps)(BillingCycle);
+const mapStateToProps = (state) => ({
+    loading: state.billingCycle.loading,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({ init, create, update, remove, copyBillingCycle }, dispatch);
+export default connect(mapStateToProps, mapDispatchToProps)(BillingCycle);

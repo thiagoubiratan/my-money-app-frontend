@@ -6,6 +6,9 @@ import consts from '../consts';
 
 const INITIAL_VALUES = { credits: [{}], debts: [{}] };
 
+export const showLoading = () => ({ type: 'SHOW_LOADING' });
+export const hideLoading = () => ({ type: 'HIDE_LOADING' });
+
 export function getList() {
     const request = axios.get(`${consts.API_URL}/billingCycles`);
 
@@ -55,6 +58,7 @@ export function init() {
 export function copyBillingCycle(id) {
     return (dispatch) => {
         console.log("Entrou para chamar a API com ID: " + id);
+        dispatch(showLoading()); // Mostra o loading
 
         // Vamos mudar o método para 'POST', conforme solicitado
         axios
@@ -75,6 +79,9 @@ export function copyBillingCycle(id) {
             .catch((e) => {
                 console.error('Erro ao copiar ciclo de pagamento:', e);
                 toastr.error('Erro', 'Não foi possível copiar o ciclo de pagamento.');
+            })
+            .finally(() => {
+                dispatch(hideLoading()); // Esconde o loading
             });
     };
 }
@@ -94,15 +101,23 @@ function submit(values, method) {
 
     return (dispatch) => {
         const id = transformedValues._id ? transformedValues._id : '';
+        dispatch(showLoading()); // Mostra o loading
         axios[method](`${consts.API_URL}/billingCycles/${id}`, transformedValues)
             .then((resp) => {
                 toastr.success('Sucesso', 'Operação realizada com sucesso.');
                 dispatch(init());
             })
             .catch((e) => {
-                e.response.data.errors.forEach((error) =>
-                    toastr.error('Erro', error)
-                );
+                if (e.response && e.response.data && e.response.data.errors) {
+                    e.response.data.errors.forEach((error) =>
+                        toastr.error('Erro', error)
+                    );
+                } else {
+                    toastr.error('Erro', 'Ocorreu um erro inesperado.');
+                }
+            })
+            .finally(() => {
+                dispatch(hideLoading()); // Esconde o loading
             });
     };
 }
