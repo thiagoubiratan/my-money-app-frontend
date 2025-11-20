@@ -11,7 +11,8 @@ import TabHeader from '../common/tab/tabHeader'
 import TabContent from '../common/tab/tabContent'
 import List from './categoryList'
 import Form from './categoryForm' // <-- seu CategoryForm
-import { init, create, update, remove } from './categoryActions'
+import { init, create, update, remove } from './categoryActions';
+import Loading from '../common/widget/Loading';
 
 class Category extends Component {
 
@@ -20,8 +21,10 @@ class Category extends Component {
     }
 
     render() {
+        const { loading } = this.props;
         return (
             <div>
+                {loading && <Loading />}
                 <ContentHeader title='Categorias' small='Cadastro' />
                 <Content>
                     <Tabs>
@@ -36,7 +39,7 @@ class Category extends Component {
                                 <List />
                             </TabContent>
                             <TabContent id='tabCreate'>
-                                <Form onSubmit={this.props.create} submitLabel='Salvar' submitClass='primary' />
+                                <Form onSubmit={this.props.create} submitLabel='Incluir' submitClass='primary' />
                             </TabContent>
                             <TabContent id='tabUpdate'>
                                 <Form onSubmit={this.props.update} submitLabel='Alterar' submitClass='info' />
@@ -52,5 +55,10 @@ class Category extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    // Acessa o estado de loading do reducer de categorias
+    loading: state.categories.loading
+});
+
 const mapDispatchToProps = dispatch => bindActionCreators({ init, create, update, remove }, dispatch);
-export default connect(null, mapDispatchToProps)(Category);
+export default connect(mapStateToProps, mapDispatchToProps)(Category);

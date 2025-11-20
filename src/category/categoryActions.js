@@ -7,11 +7,20 @@ import consts from '../consts';
 // Valores iniciais para o formulário de Categoria
 const INITIAL_VALUES = { description: '' };
 
+export const showLoading = () => ({ type: 'SHOW_LOADING' });
+export const hideLoading = () => ({ type: 'HIDE_LOADING' });
+
 export function getList() {
-    const request = axios.get(`${consts.API_URL}/category`);
-    return {
-        type: 'CATEGORY_FETCHED',
-        payload: request,
+    return (dispatch) => {
+        axios.get(`${consts.API_URL}/category`)
+            .then(resp => {
+                dispatch({ type: 'CATEGORY_FETCHED', payload: resp });
+                dispatch(hideLoading()); // Finaliza o loading aqui!
+            })
+            .catch(e => {
+                toastr.error('Erro', 'Não foi possível carregar a lista de categorias.');
+                dispatch(hideLoading()); // Garante que o loading finalize em caso de erro.
+            });
     };
 }
 
@@ -32,7 +41,7 @@ function submit(values, method) {
     return dispatch => {
         const id = values._id ? values._id : '';
         const url = id ? `${consts.API_URL}/category/${id}` : `${consts.API_URL}/category`;
-
+        dispatch(showLoading());
         axios[method](url, values)
             .then(resp => {
                 toastr.success('Sucesso', 'Operação realizada com sucesso.');
@@ -50,27 +59,36 @@ function submit(values, method) {
 
 // Quando clicar em "Novo" ou ao iniciar o módulo
 export function init() {
-    return [
-        showTabs('tabList', 'tabCreate'),
-        selectTab('tabList'),
-        getList(),
-        initialize('categoryForm', INITIAL_VALUES) // <-- aqui inicializa o form
-    ];
+    return (dispatch) => {
+        dispatch(showLoading()); // Inicia o loading aqui!
+        dispatch(showTabs('tabList', 'tabCreate'));
+        dispatch(selectTab('tabList'));
+        dispatch(getList());
+        dispatch(initialize('categoryForm', INITIAL_VALUES));
+    };
 }
 
 // Caso queira no futuro preparar edição e exclusão de categoria:
 export function showUpdate(category) {
-    return [
-        showTabs('tabUpdate'),
-        selectTab('tabUpdate'),
-        initialize('categoryForm', category)
-    ];
+    return (dispatch) => {
+        dispatch(showLoading());
+        setTimeout(() => {
+            dispatch(showTabs('tabUpdate'));
+            dispatch(selectTab('tabUpdate'));
+            dispatch(initialize('categoryForm', category));
+            dispatch(hideLoading());
+        }, 100); // Pequeno delay para garantir que o loading seja visível
+    };
 }
 
 export function showDelete(category) {
-    return [
-        showTabs('tabDelete'),
-        selectTab('tabDelete'),
-        initialize('categoryForm', category)
-    ];
+    return (dispatch) => {
+        dispatch(showLoading());
+        setTimeout(() => {
+            dispatch(showTabs('tabDelete'));
+            dispatch(selectTab('tabDelete'));
+            dispatch(initialize('categoryForm', category));
+            dispatch(hideLoading());
+        }, 100); // Pequeno delay para garantir que o loading seja visível
+    };
 }
