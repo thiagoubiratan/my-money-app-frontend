@@ -50,8 +50,16 @@ class Dashboard extends Component {
       datasets: [
         {
           data: categories.map((c) => parseValue(c.total)),
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#8D6E63", "#4DB6AC", "#BA68C8"],
-          borderColor: ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"],
+          backgroundColor: [
+            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40',
+            '#E57373', '#7986CB', '#4DD0E1', '#A1887F', '#F06292', '#BA68C8',
+            '#FFD54F', '#81C784', '#90A4AE', '#F44336', '#2196F3', '#009688'
+          ],
+          borderColor: [
+            '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF',
+            '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF',
+            '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF'
+          ],
           borderWidth: 2,
         },
       ],
@@ -72,39 +80,12 @@ class Dashboard extends Component {
         <ContentHeader title="Dashboard" small="" />
         <Content>
           <Row>
-            {/* Caixas no estilo AdminLTE */}
-            <div className="col-lg-4 col-xs-12">
-              <div className="box bg-green">
-                <div className="box-header with-border">
-                  <h3 className="box-title">Total de Créditos</h3>
-                </div>
-                <div className="box-body">
-                  <h4><i className="fa fa-link"></i> R$ {credit}</h4>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-4 col-xs-12">
-              <div className="box bg-red">
-                <div className="box-header with-border">
-                  <h3 className="box-title">Total de Débitos</h3>
-                </div>
-                <div className="box-body">
-                  <h4><i className="fa fa-chain-broken"></i> R$ {debt}</h4>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-4 col-xs-12">
-              <div className="box bg-blue">
-                <div className="box-header with-border">
-                  <h3 className="box-title">Valor Consolidado</h3>
-                </div>
-                <div className="box-body">
-                  <h4><i className="fa fa-handshake-o"></i> R$ {consol}</h4>
-                </div>
-              </div>
-            </div>
+            <ValueBox cols='12 4' color='green' icon='link'
+              value={`R$ ${credit}`} text='Total de Créditos' />
+            <ValueBox cols='12 4' color='red' icon='chain-broken'
+              value={`R$ ${debt}`} text='Total de Débitos' />
+            <ValueBox cols='12 4' color='blue' icon='handshake-o'
+              value={`R$ ${consol}`} text='Valor Consolidado' />
           </Row>
 
           <Row>
