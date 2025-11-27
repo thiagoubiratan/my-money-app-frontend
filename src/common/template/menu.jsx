@@ -9,5 +9,6 @@ export default props => (
             <MenuItem path='categories' label='Categorias' icon='tags'></MenuItem>
             <MenuItem path='billingCycles' label='Ciclos de Pagamentos' icon='usd'></MenuItem>
         </MenuTree>
+        <MenuItem path='donation' label='Doação' icon='gift'></MenuItem>
     </ul >
 )

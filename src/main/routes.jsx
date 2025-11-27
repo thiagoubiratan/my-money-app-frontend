@@ -7,6 +7,7 @@ import BillingCycle from '../billingCycle/billingCycle'
 import Category from '../category/category'
 import ForgotPassword from '../auth/forgot-password'
 import ResetPassword from '../auth/reset-password'
+import Donation from '../donation/donation'
 
 
 export default props => (
@@ -20,6 +21,7 @@ export default props => (
             <IndexRoute component={Dashboard} />
             <Route path='billingCycles' component={BillingCycle} />
             <Route path='categories' component={Category} />
+            <Route path='donation' component={Donation} />
         </Route>
 
         <Redirect from='*' to='/' />

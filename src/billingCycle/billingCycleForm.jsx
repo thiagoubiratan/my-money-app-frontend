@@ -29,9 +29,11 @@ class BillingCycleForm extends Component {
                 </div>
                 <div className="box-footer">
                     <button type="submit" className={`btn btn-${this.props.submitClass}`}>
+                        <i className="fa fa-save" style={{ marginRight: 5 }}></i>
                         {this.props.submitLabel}
                     </button>
                     <button type="button" className="btn btn-warning" onClick={this.props.init}>
+                        <i className="fa fa-ban" style={{ marginRight: 5 }}></i>
                         Cancelar
                     </button>
                 </div>
