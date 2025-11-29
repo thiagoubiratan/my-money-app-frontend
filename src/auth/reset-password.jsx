@@ -43,7 +43,7 @@ class ResetPassword extends Component {
   render() {
     return (
       <div className="login-box">
-        <div className="login-logo"><b>Meu</b>Dinheiro360</div>
+        <div className="login-logo"><b>ESFin</b></div>
         <div className="login-box-body">
           <p className="login-box-msg">Redefinir Senha</p>
           <form onSubmit={this.handleSubmit}>

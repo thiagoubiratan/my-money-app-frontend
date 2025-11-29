@@ -33,8 +33,8 @@ class ForgotPassword extends Component {
     return (
       <div className="login-box">
         <div className="login-logo">
-          <i className='fa fa-money'></i>
-          <b> Meu Dinheiro</b> 360
+          <i className='fa fa-bank'></i>
+          <b> ESFin</b>
         </div>
         <div className="login-box-body">
           <p className="login-box-msg">Entre com e-mail para recuperar a senha</p>
@@ -59,7 +59,10 @@ class ForgotPassword extends Component {
               </div>
               <div className="row">
                 <div className="col-xs-12">
-                  <button type="submit" className="btn btn-primary btn-block btn-flat">Enviar Link</button>
+                  <button type="submit" className="btn btn-primary btn-block btn-flat">
+                    <i className="fa fa-send" style={{ marginRight: 6 }}></i>
+                    Enviar Link
+                  </button>
                 </div>
               </div>
             </form>

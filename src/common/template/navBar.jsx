@@ -42,12 +42,24 @@ class Navbar extends Component {
               </li>
               <li className="user-footer">
                 <div className="pull-left">
-                  <a href="javascript:;" onClick={() => this.setState({ showPasswordModal: true })} className="btn btn-default btn-flat">
+                  <a
+                    href="javascript:;"
+                    onClick={() => this.setState({ showPasswordModal: true })}
+                    className="btn btn-default btn-flat"
+                  >
+                    <i className="fa fa-key" style={{ marginRight: 6 }}></i>
                     Alterar Senha
                   </a>
                 </div>
                 <div className="pull-right">
-                  <a href="#" onClick={this.props.logout} className="btn btn-default btn-flat">Sair</a>
+                  <a
+                    href="#"
+                    onClick={this.props.logout}
+                    className="btn btn-default btn-flat"
+                  >
+                    <i className="fa fa-sign-out" style={{ marginRight: 6 }}></i>
+                    Sair
+                  </a>
                 </div>
               </li>
             </ul>

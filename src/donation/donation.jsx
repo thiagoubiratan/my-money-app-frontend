@@ -29,7 +29,7 @@ class Donation extends Component {
   render() {
     return (
       <div>
-        <ContentHeader title='Doação' small='Apoie o projeto' />
+        <ContentHeader title=' Doação' small='Apoie o projeto' icon="gift" />
         <Content>
           <Row>
             <div className="col-xs-12">

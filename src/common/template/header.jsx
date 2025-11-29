@@ -5,12 +5,12 @@ export default props => (
     <header className='main-header'>
         <a href='/#/' className='logo'>
             <span className='logo-mini'>
-                <i className='fa fa-money'></i>
+                <i className='fa fa-dollar'></i>
                 <b></b>
             </span>
             <span className='logo-lg'>
-                <i className='fa fa-money'></i>
-                <b> Meu Dinheiro</b> 360
+                <i className='fa fa-dollar'></i>
+                <b> ESFin </b>
             </span>
         </a>
         <nav className='navbar navbar-static-top'>

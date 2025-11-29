@@ -1,7 +1,13 @@
 import React from 'react'
 
-export default props => (
-    <section className='content-header'>
-        <h1>{props.title} <small>{props.small}</small></h1>
+export default function ContentHeader({ title, small, icon }) {
+  return (
+    <section className="content-header">
+      <h1>
+        {icon && <i className={`fa fa-${icon}`} ></i>}
+        {title}
+        <small style={{ marginLeft: 8 }}>{small}</small>
+      </h1>
     </section>
-)
+  );
+}

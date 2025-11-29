@@ -83,7 +83,9 @@ class Dashboard extends Component {
     if (!credit && !debt && !consol) {
       return (
         <div>
-          <ContentHeader title="Dashboard" small="Versão 2024.09.30" />
+          <ContentHeader title=" Dashboard" small="Versão 2024.09.30" icon="dashboard"
+          />
+
           <Content>
             <div>Carregando...</div>
           </Content>
@@ -143,7 +145,7 @@ class Dashboard extends Component {
 
     return (
       <div>
-        <ContentHeader title="Dashboard" small={periodLabel} />
+        <ContentHeader title=" Dashboard" small={periodLabel} icon="dashboard"/>
         <Content>
           <Row>
             <div className="col-xs-12">

@@ -27,7 +27,7 @@ class UpdatePasswordModal extends Component {
     const { email, updatePassword, onClose } = this.props
 
     if (newPassword !== confirmPassword) {
-        toastr.error('Erro', 'As novas senhas não coincidem.')  // Mensagem genérica
+      toastr.error('Erro', 'As novas senhas não coincidem.')  // Mensagem genérica
       return
     }
 
@@ -47,7 +47,10 @@ class UpdatePasswordModal extends Component {
                 <button type="button" className="close" onClick={onClose}>
                   &times;
                 </button>
-                <h4 className="modal-title">Atualizar Senha</h4>
+                <h4 className="modal-title">
+                  <i className='fa fa-key'></i>
+                  Atualizar Senha
+                </h4>
               </div>
               <div className="modal-body">
                 <div className="form-group">
@@ -83,9 +86,11 @@ class UpdatePasswordModal extends Component {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-default" onClick={onClose}>
+                  <i className="fa fa-ban" style={{ marginRight: 5 }}></i>
                   Cancelar
                 </button>
                 <button type="submit" className="btn btn-primary">
+                  <i className="fa fa-refresh" style={{ marginRight: 6 }}></i>
                   Atualizar Senha
                 </button>
               </div>

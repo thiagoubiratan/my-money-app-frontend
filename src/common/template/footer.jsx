@@ -9,7 +9,7 @@ export default (props) => {
         <b>Version</b> 1.1.001
       </div>
       <strong>
-        Copyright © 2020-{anoAtual} <a href="#">Meu Dinheiro APP</a>.
+        Copyright © 2020-{anoAtual} <a href="#">ESFin</a>.
       </strong>{" "}
       Todos os direitos reservados.
     </footer>

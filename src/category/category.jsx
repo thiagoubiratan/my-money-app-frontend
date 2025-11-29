@@ -25,7 +25,7 @@ class Category extends Component {
         return (
             <div>
                 {loading && <Loading />}
-                <ContentHeader title='Categorias' small='Cadastro' />
+                <ContentHeader title=' Categorias' small='Cadastro' icon='tags' />
                 <Content>
                     <Tabs>
                         <TabsHeader>
